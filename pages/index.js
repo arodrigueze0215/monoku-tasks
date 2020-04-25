@@ -1,204 +1,142 @@
-import Head from 'next/head'
+import React from 'react'
+import 'isomorphic-fetch';
+import ListTask from '../components/ListTask';
+import InputAdd from '../components/InputAdd';
+import LayoutAddTask from '../components/LayoutAddTask';
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+export default class Add extends React.Component {
+  static async getInitialProps() {
+    try {
+      let req = await fetch('https://monoku-tasks.herokuapp.com/FXouHilAxLw1LT5ttZpa/all');
+      let tasks = await req.json();
+      return { tasks, statusCode:200 };            
+    } catch (error) {
+      return { channels:null, statusCode:503 };            
+        
+    }
+  }
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/zeit/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://zeit.co/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with ZEIT Now.
-            </p>
-          </a>
+  render() {
+    const { tasks } = this.props;
+    return (
+        <div className="Inicio">
+            <div className="Image">
+              <div className="Overlay">
+                <div className="content-hora">
+                  <span className="Viernes-6-de-diciem">Fecha</span>
+                  <span className="am">Hora</span>
+                  <span className="Qu-planeas-hacer-e">¿Qué quieres hacer hoy?</span>
+                </div>
+              </div>
+            </div>
+          <LayoutAddTask>
+            <InputAdd/>            
+            <ListTask tasks={tasks}/>
+          </LayoutAddTask>
+    
+          <style global jsx>{`
+              html, body {
+                height: 100%;
+                margin: 0;
+                background-color: #e8e8e8;
+              }
+              
+              :root {
+                --indigo-blue:#3720b0;
+              }
+              .Inicio {
+                display:flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction:column;
+                margin-top:19px;
+              }
+              .Image {
+                width: 50%;
+                height: 275px;
+                border-radius: 15px;
+                box-shadow: 0 10px 13px 0 rgba(147, 163, 247, 0.52);
+                background-image: url('https://blog.assets.traveltrivia.com/2019/01/Rocky-Mountains-Colorado-1.jpg');
+                background-repeat: no-repeat;
+                background-size: 100%;
+                
+              }
+              
+              .Overlay {
+                width: 100%;
+                height: 275px;
+                opacity: 0.72;
+                border-radius: 15px;
+                background-image: linear-gradient(242deg, rgba(34, 102, 247, 0.79) 105%, var(--indigo-blue) 27%);
+              }
+              .content-hora {
+                display:flex;
+                flex-direction: column;
+                padding-left: 10%;
+                padding-top: 3%;
+                height:100%;
+    
+              }
+              .Viernes-6-de-diciem {
+                width: 100%;         
+                height: 19px;          
+                opacity: 0.43;          
+                font-family: AvenirNext;          
+                font-size: 14px;          
+                font-weight: 500;          
+                font-stretch: normal;          
+                font-style: normal;          
+                line-height: normal;          
+                letter-spacing: normal;          
+                color: #ffffff;          
+              }
+              .am {
+    
+                width: 100%;          
+                height: 87px;          
+                font-family: AvenirNext;          
+                font-size: 64px;          
+                font-weight: 200;          
+                font-stretch: normal;          
+                font-style: normal;          
+                line-height: normal;          
+                letter-spacing: normal;          
+                color: #ffffff;          
+              }
+              .Qu-planeas-hacer-e {
+    
+                width: 100%;          
+                height: 50px;          
+                font-family: AvenirNext;          
+                font-size: 18px;          
+                font-weight: normal;          
+                font-stretch: normal;          
+                font-style: normal;          
+                line-height: normal;          
+                letter-spacing: normal;          
+                color: #ffffff;          
+              }
+              
+              
+              
+              @media only screen and (max-width: 600px) {
+                .Overlay {
+                  width: 330px;
+                  height: 275px;
+                  opacity: 0.72;
+                  border-radius: 15px;
+                  background-image: linear-gradient(217deg, rgba(34, 102, 247, 0.79) 105%, var(--indigo-blue) 10%);
+                  
+                } 
+                .Image {
+                  width: 330px;        
+                  height: 275px;        
+                  border-radius: 15px;        
+                  box-shadow: 0 10px 13px 0 rgba(147, 163, 247, 0.52);                     
+                }
+              }
+          `}</style>
         </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <img src="/zeit.svg" alt="ZEIT Logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+    );
+  }
 }
