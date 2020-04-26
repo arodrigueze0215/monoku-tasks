@@ -7,7 +7,7 @@ export default class ItemList extends React.Component {
         const icDelete = { backgroundImage: `url(/ic-del.png)`, width:'32px', height:'32px' };
         return(
             <div className="list-item">
-                <input className="Radio" type="radio"/>
+                <input className="" type="checkbox"/>
                 <span className="item-content-task">{task.text}</span>
                 <span style={icDelete}></span>
                 <style jsx>{`
@@ -17,6 +17,15 @@ export default class ItemList extends React.Component {
                         flex-direction:row;
                         justify-content:space-between;
                         align-items: center;
+                        padding: 6px;
+                    }
+                    .list-item:hover {opacity: 0.5;                        
+                        background-color: rgba(255,255,255,0.1);                        
+                        border-radius: 1%;                        
+                        cursor: pointer;
+                        border-radius: 5px;
+                        box-shadow: 0 18px 18px -6px rgba(11, 11, 11, 0.07), 0 -10px 16px 0 rgba(255, 255, 255, 0.44), 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+                        background-image: linear-gradient(to left, #fbfbfb, #f8f8f8 46%, #f6f6f6 2%);
                     }
                     .Radio {
                         width: 23px;

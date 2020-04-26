@@ -1,23 +1,21 @@
 import React from 'react'
-import 'isomorphic-fetch';
-import ListTask from '../components/ListTask';
-import InputAdd from '../components/InputAdd';
 import LayoutAddTask from '../components/LayoutAddTask';
+import api from '../api';
 
-export default class Add extends React.Component {
-  static async getInitialProps() {
-    try {
-      let req = await fetch('https://monoku-tasks.herokuapp.com/FXouHilAxLw1LT5ttZpa/all');
-      let tasks = await req.json();
-      return { tasks, statusCode:200 };            
-    } catch (error) {
-      return { channels:null, statusCode:503 };            
-        
-    }
+export async function getServerSideProps(){
+  try {
+    let req = await fetch('https://monoku-tasks.herokuapp.com/FXouHilAxLw1LT5ttZpa/all');
+    let tasks = await req.json();
+    return { props: {tasks, statusCode:200} };            
+  } catch (error) {
+    return { props: {tasks :null, statusCode:503} };
+      
   }
-
+}
+export default class Add extends React.Component {
+  
   render() {
-    const { tasks } = this.props;
+
     return (
         <div className="Inicio">
             <div className="Image">
@@ -29,10 +27,7 @@ export default class Add extends React.Component {
                 </div>
               </div>
             </div>
-          <LayoutAddTask>
-            <InputAdd/>            
-            <ListTask tasks={tasks}/>
-          </LayoutAddTask>
+          <LayoutAddTask {...this.props}/>
     
           <style global jsx>{`
               html, body {
@@ -58,7 +53,7 @@ export default class Add extends React.Component {
                 box-shadow: 0 10px 13px 0 rgba(147, 163, 247, 0.52);
                 background-image: url('https://blog.assets.traveltrivia.com/2019/01/Rocky-Mountains-Colorado-1.jpg');
                 background-repeat: no-repeat;
-                background-size: 100%;
+                background-size: cover;
                 
               }
               
